@@ -3,6 +3,11 @@
 var ADS_AMOUNT = 8;
 var typesOfHousing = ['palace', 'flat', 'house', 'bungalo'];
 
+var map = document.querySelector('.map');
+var allMapPins = document.querySelector('.map__pins');
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var fragment = document.createDocumentFragment();
+
 var mapWidth = map.offsetWidth;
 
 var POSITION_MAX_Y = 630;
@@ -41,3 +46,7 @@ var generateAllAds = function(count) {
 };
 
 var allAdsCollection = generateAllAds(ADS_AMOUNT);
+
+// removes class .map--faded
+map.classList.remove('map--faded');
+

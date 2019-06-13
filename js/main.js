@@ -63,3 +63,9 @@ var createPin = function (ad) {
   return pinOfMap;
 };
 
+// adds pins to the map
+for (var i = 0; i < allAdsCollection.length; i++) {
+  fragment.appendChild(createPin(allAdsCollection[i]));
+};
+
+allMapPins.appendChild(fragment);

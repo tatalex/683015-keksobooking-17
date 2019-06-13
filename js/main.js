@@ -38,7 +38,7 @@ var generateAd = function (adNumber) {
   return ad;
 };
 
-var generateAllAds = function(count) {
+var generateAllAds = function () {
   var allAds = [];
   for (var i = 1; i <= ADS_AMOUNT; i++) {
     allAds.push(generateAd(i));
@@ -66,6 +66,6 @@ var createPin = function (ad) {
 // adds pins to the map
 for (var i = 0; i < allAdsCollection.length; i++) {
   fragment.appendChild(createPin(allAdsCollection[i]));
-};
+}
 
 allMapPins.appendChild(fragment);

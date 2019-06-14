@@ -21,21 +21,24 @@ var getRandomInRange = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-var generateAd = function (adNumber) {
-  var ad = {
+var getRandomElementFromArray = function (array) {
+  return array[getRandomInRange(0, array.length)];
+};
+
+
+var generateAd = function (index) {
+  return {
     author: {
-      avatar: 'img/avatars/user0' + adNumber + '.png'
+      avatar: 'img/avatars/user0' + index + '.png'
     },
     offer: {
-      type: typesOfHousing[getRandomInRange(0, typesOfHousing.length)]
+      type: getRandomElementFromArray(typesOfHousing)
     },
     location: {
       x: getRandomInRange(0, mapWidth),
       y: getRandomInRange(POSITION_MIN_Y, POSITION_MAX_Y)
     }
   };
-
-  return ad;
 };
 
 var generateAllAds = function () {
@@ -52,8 +55,8 @@ var allAdsCollection = generateAllAds(ADS_AMOUNT);
 // removes class .map--faded
 map.classList.remove('map--faded');
 
-// creates pin
-var createPin = function (ad) {
+// renders pin
+var renderPin = function (ad) {
   var pinOfMap = pinTemplate.cloneNode(true);
   pinOfMap.style.left = (ad.location.x - PIN_WIDTH / 2) + 'px';
   pinOfMap.style.top = (ad.location.y - PIN_HEIGHT) + 'px';
@@ -64,8 +67,15 @@ var createPin = function (ad) {
 };
 
 // adds pins to the map
-for (var i = 0; i < allAdsCollection.length; i++) {
-  fragment.appendChild(createPin(allAdsCollection[i]));
-}
+var renderAllPins = function () {
+  for (var i = 0; i < allAdsCollection.length; i++) {
+    fragment.appendChild(renderPin(allAdsCollection[i]));
+  }
 
-allMapPins.appendChild(fragment);
+  allMapPins.appendChild(fragment);
+};
+
+renderAllPins();
+
+
+

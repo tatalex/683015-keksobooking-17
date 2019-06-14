@@ -76,6 +76,3 @@ var addPins = function () {
 };
 
 addPins();
-
-
-

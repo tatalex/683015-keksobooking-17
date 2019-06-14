@@ -41,16 +41,16 @@ var generateAd = function (index) {
   };
 };
 
-var generateAllAds = function () {
-  var allAds = [];
+var generateAds = function () {
+  var ads = [];
   for (var i = 1; i <= ADS_AMOUNT; i++) {
-    allAds.push(generateAd(i));
+    ads.push(generateAd(i));
   }
 
-  return allAds;
+  return ads;
 };
 
-var allAdsCollection = generateAllAds(ADS_AMOUNT);
+var adsCollection = generateAds(ADS_AMOUNT);
 
 // removes class .map--faded
 map.classList.remove('map--faded');
@@ -67,15 +67,15 @@ var renderPin = function (ad) {
 };
 
 // adds pins to the map
-var renderAllPins = function () {
-  for (var i = 0; i < allAdsCollection.length; i++) {
-    fragment.appendChild(renderPin(allAdsCollection[i]));
+var addPins = function () {
+  for (var i = 0; i < adsCollection.length; i++) {
+    fragment.appendChild(renderPin(adsCollection[i]));
   }
 
   allMapPins.appendChild(fragment);
 };
 
-renderAllPins();
+addPins();
 
 
 

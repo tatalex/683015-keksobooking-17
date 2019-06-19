@@ -16,6 +16,17 @@ var POSITION_MIN_Y = 130;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
+var MAIN_PIN_WIDTH = 62;
+var MAIN_PIN_HEIGHT = 84;
+
+var adForm = document.querySelector('.ad-form');
+var mapFilters = document.querySelector('.map__filters');
+var adFieldset = adForm.querySelectorAll('fieldset');
+var mapSelect = mapFilters.querySelectorAll('select');
+var mapFieldset = mapFilters.querySelectorAll('fieldset');
+var address = adForm.querySelector('#address');
+var mainPin = document.querySelector('.map__pin--main');
+
 // adds mock data
 var getRandomInRange = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -52,8 +63,6 @@ var generateAds = function () {
 
 var adsCollection = generateAds(ADS_AMOUNT);
 
-// removes class .map--faded
-map.classList.remove('map--faded');
 
 // renders pin
 var renderPin = function (ad) {
@@ -75,4 +84,19 @@ var addPins = function () {
   allMapPins.appendChild(fragment);
 };
 
-addPins();
+// disables fields
+var setDisable = function (elements) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].disabled = true;
+  }
+};
+
+var removeDisable = function (elements) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].disabled = false;
+  }
+};
+
+setDisable(adFieldset);
+setDisable(mapFieldset);
+setDisable(mapSelect);

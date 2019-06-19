@@ -108,3 +108,19 @@ var getAdressLocation = function () {
   address.value = locationX + ', ' + locationY;
   return address.value;
 };
+
+// creates function for active state
+var onPinClick = function () {
+  removeDisable(adFieldset);
+  removeDisable(mapFieldset);
+  removeDisable(mapSelect);
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  addPins();
+  getAdressLocation();
+  mainPin.removeEventListener('click', onPinClick);
+};
+
+mainPin.addEventListener('click', onPinClick);
+
+mainPin.addEventListener('mouseup', onPinClick);

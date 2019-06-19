@@ -100,3 +100,11 @@ var removeDisable = function (elements) {
 setDisable(adFieldset);
 setDisable(mapFieldset);
 setDisable(mapSelect);
+
+// adds location to address field
+var getAdressLocation = function () {
+  var locationX = mainPin.offsetLeft + MAIN_PIN_WIDTH / 2;
+  var locationY = mainPin.offsetTop + MAIN_PIN_HEIGHT;
+  address.value = locationX + ', ' + locationY;
+  return address.value;
+};

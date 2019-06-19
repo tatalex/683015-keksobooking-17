@@ -16,8 +16,8 @@ var POSITION_MIN_Y = 130;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
-var MAIN_PIN_WIDTH = 62;
-var MAIN_PIN_HEIGHT = 84;
+var MAIN_PIN_WIDTH = 65;
+var MAIN_PIN_HEIGHT = 65;
 
 var adForm = document.querySelector('.ad-form');
 var mapFilters = document.querySelector('.map__filters');
@@ -84,43 +84,35 @@ var addPins = function () {
   allMapPins.appendChild(fragment);
 };
 
-// disables fields
-var setDisable = function (elements) {
+// switches disable attribute
+var switchDisableAttribute = function (elements, value) {
   for (var i = 0; i < elements.length; i++) {
-    elements[i].disabled = true;
+    elements[i].disabled = value;
   }
 };
-
-var removeDisable = function (elements) {
-  for (var i = 0; i < elements.length; i++) {
-    elements[i].disabled = false;
-  }
-};
-
-setDisable(adFieldset);
-setDisable(mapFieldset);
-setDisable(mapSelect);
 
 // adds location to address field
-var getAdressLocation = function () {
+var setAdressLocation = function () {
   var locationX = mainPin.offsetLeft + MAIN_PIN_WIDTH / 2;
-  var locationY = mainPin.offsetTop + MAIN_PIN_HEIGHT;
+  var locationY = mainPin.offsetTop + MAIN_PIN_HEIGHT / 2;
   address.value = locationX + ', ' + locationY;
-  return address.value;
 };
 
 // creates function for active state
 var onPinClick = function () {
-  removeDisable(adFieldset);
-  removeDisable(mapFieldset);
-  removeDisable(mapSelect);
+  switchDisableAttribute(adFieldset, false);
+  switchDisableAttribute(mapFieldset, false);
+  switchDisableAttribute(mapSelect, false);
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   addPins();
-  getAdressLocation();
+  setAdressLocation();
   mainPin.removeEventListener('click', onPinClick);
 };
 
-mainPin.addEventListener('click', onPinClick);
+switchDisableAttribute(adFieldset, true);
+switchDisableAttribute(mapFieldset, true);
+switchDisableAttribute(mapSelect, true);
 
+mainPin.addEventListener('click', onPinClick);
 mainPin.addEventListener('mouseup', onPinClick);

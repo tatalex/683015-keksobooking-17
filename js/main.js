@@ -128,7 +128,7 @@ var onFieldValueChange = function (evt) {
 };
 
 // synchronizes housing type and price
-var onHousingTypeChange = function (evt) {
+var onHousingTypeChange = function () {
   var minPriceOfType = typesOfHousing[offerType.value];
 
   price.min = minPriceOfType;

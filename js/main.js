@@ -1,7 +1,12 @@
 'use strict';
 
 var ADS_AMOUNT = 8;
-var typesOfHousing = ['palace', 'flat', 'house', 'bungalo'];
+var typesOfHousing = {
+  'palace': 10000,
+  'flat': 1000,
+  'house': 5000,
+  'bungalo': 0
+};
 
 var map = document.querySelector('.map');
 var allMapPins = document.querySelector('.map__pins');
@@ -26,6 +31,11 @@ var mapSelect = mapFilters.querySelectorAll('select');
 var mapFieldset = mapFilters.querySelectorAll('fieldset');
 var address = adForm.querySelector('#address');
 var mainPin = document.querySelector('.map__pin--main');
+
+var offerType = adForm.querySelector('#type');
+var price = adForm.querySelector('#price');
+var timeIn = adForm.querySelector('#timein');
+var timeOut = adForm.querySelector('#timeout');
 
 // adds mock data
 var getRandomInRange = function (min, max) {
@@ -110,9 +120,28 @@ var onPinClick = function () {
   mainPin.removeEventListener('click', onPinClick);
 };
 
+// synchronizes the time of departure and entry
+var onFieldValueChange = function (evt) {
+  var target = evt.target;
+  var selectedField = target === timeOut ? timeIn : timeOut;
+  selectedField.value = target.value;
+};
+
+// synchronizes housing type and price
+var onHousingTypeChange = function () {
+  var minPriceOfType = typesOfHousing[offerType.value];
+
+  price.min = minPriceOfType;
+  price.placeholder = minPriceOfType;
+};
+
 switchDisableAttribute(adFieldset, true);
 switchDisableAttribute(mapFieldset, true);
 switchDisableAttribute(mapSelect, true);
 
 mainPin.addEventListener('click', onPinClick);
 mainPin.addEventListener('mouseup', onPinClick);
+
+timeIn.addEventListener('change', onFieldValueChange);
+timeOut.addEventListener('change', onFieldValueChange);
+offerType.addEventListener('change', onHousingTypeChange);

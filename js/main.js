@@ -105,6 +105,8 @@ var switchDisableAttribute = function (elements, value) {
 
 // adds location to address field
 var setAdressLocation = function (coordinateX, coordinateY) {
+  var coordinateX = Math.ceil(mainPin.offsetLeft + MAIN_PIN_WIDTH / 2);
+  var coordinateY = Math.ceil(mainPin.offsetTop + MAIN_PIN_HEIGHT);
   address.value = coordinateX + ', ' + coordinateY;
 };
 
@@ -134,7 +136,7 @@ var onHousingTypeChange = function () {
 };
 
 // adds function to activate map and move the main pin
-var onMouseDown =  function (evt) {
+var onMouseDown = function (evt) {
   evt.preventDefault();
 
   var startCoords = {
@@ -158,11 +160,11 @@ var onMouseDown =  function (evt) {
     var currentCoordinateX = mainPin.offsetLeft - shift.x;
     var currentCoordinateY = mainPin.offsetTop - shift.y;
 
-    if (currentCoordinateY <= POSITION_MIN_Y) {
-      currentCoordinateY = POSITION_MIN_Y;
+    if (currentCoordinateY <= POSITION_MIN_Y - MAIN_PIN_HEIGHT) {
+      currentCoordinateY = POSITION_MIN_Y - MAIN_PIN_HEIGHT;
     }
-    if (currentCoordinateY >= POSITION_MAX_Y) {
-      currentCoordinateY = POSITION_MAX_Y;
+    if (currentCoordinateY >= POSITION_MAX_Y - MAIN_PIN_HEIGHT) {
+      currentCoordinateY = POSITION_MAX_Y - MAIN_PIN_HEIGHT;
     }
     if (currentCoordinateX <= POSITION_MIN_X) {
       currentCoordinateX = POSITION_MIN_X;

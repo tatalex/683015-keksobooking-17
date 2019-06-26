@@ -206,4 +206,4 @@ timeIn.addEventListener('change', onFieldValueChange);
 timeOut.addEventListener('change', onFieldValueChange);
 offerType.addEventListener('change', onHousingTypeChange);
 
-window.addEventListener("resize", onChangeDeviceWidth);
+window.addEventListener('resize', onChangeDeviceWidth);

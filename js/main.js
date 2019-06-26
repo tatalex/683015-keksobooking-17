@@ -105,8 +105,8 @@ var switchDisableAttribute = function (elements, value) {
 
 // adds location to address field
 var setAdressLocation = function (coordinateX, coordinateY) {
-  var coordinateX = Math.ceil(mainPin.offsetLeft + MAIN_PIN_WIDTH / 2);
-  var coordinateY = Math.ceil(mainPin.offsetTop + MAIN_PIN_HEIGHT);
+  coordinateX = Math.ceil(mainPin.offsetLeft + MAIN_PIN_WIDTH / 2);
+  coordinateY = Math.ceil(mainPin.offsetTop + MAIN_PIN_HEIGHT);
   address.value = coordinateX + ', ' + coordinateY;
 };
 

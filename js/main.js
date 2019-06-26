@@ -104,10 +104,8 @@ var switchDisableAttribute = function (elements, value) {
 };
 
 // adds location to address field
-var setAdressLocation = function () {
-  var locationX = Math.ceil(mainPin.offsetLeft + MAIN_PIN_WIDTH / 2);
-  var locationY = Math.ceil(mainPin.offsetTop + MAIN_PIN_HEIGHT / 2);
-  address.value = locationX + ', ' + locationY;
+var setAdressLocation = function (coordinateX, coordinateY) {
+  address.value = coordinateX + ', ' + coordinateY;
 };
 
 // creates function for active state
@@ -161,27 +159,28 @@ var onMouseDown =  function (evt) {
     var currentCoordinateY = mainPin.offsetTop - shift.y;
 
     if (currentCoordinateY <= POSITION_MIN_Y) {
-      currentCoordinateY = POSITION_MIN_Y
+      currentCoordinateY = POSITION_MIN_Y;
     }
     if (currentCoordinateY >= POSITION_MAX_Y) {
-      currentCoordinateY = POSITION_MAX_Y
+      currentCoordinateY = POSITION_MAX_Y;
     }
     if (currentCoordinateX <= POSITION_MIN_X) {
-      currentCoordinateX = POSITION_MIN_X
+      currentCoordinateX = POSITION_MIN_X;
     }
-    if (currentCoordinateX  >= POSITION_MAX_X - MAIN_PIN_WIDTH) {
-      currentCoordinateX =  POSITION_MAX_X - MAIN_PIN_WIDTH
+    if (currentCoordinateX >= POSITION_MAX_X - MAIN_PIN_WIDTH) {
+      currentCoordinateX = POSITION_MAX_X - MAIN_PIN_WIDTH;
     }
 
     mainPin.style.left = currentCoordinateX + 'px';
     mainPin.style.top = currentCoordinateY + 'px';
 
-    address.value = currentCoordinateX + ', ' + currentCoordinateY;
+    setAdressLocation(currentCoordinateX, currentCoordinateY);
   };
 
   var onMouseUp = function (evtUp) {
     evtUp.preventDefault();
     activateMap();
+
 
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);

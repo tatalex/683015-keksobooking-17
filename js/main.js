@@ -48,6 +48,10 @@ var getRandomElementFromArray = function (array) {
   return array[getRandomInRange(0, array.length)];
 };
 
+var onChangeDeviceWidth = function () {
+  POSITION_MAX_X = map.offsetWidth;
+};
+
 
 var generateAd = function (index) {
   return {
@@ -201,3 +205,5 @@ switchDisableAttribute(mapSelect, true);
 timeIn.addEventListener('change', onFieldValueChange);
 timeOut.addEventListener('change', onFieldValueChange);
 offerType.addEventListener('change', onHousingTypeChange);
+
+window.addEventListener("resize", onChangeDeviceWidth);

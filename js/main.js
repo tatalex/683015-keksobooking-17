@@ -26,6 +26,9 @@ var PIN_HEIGHT = 70;
 var MAIN_PIN_WIDTH = 65;
 var MAIN_PIN_HEIGHT = 65;
 
+var MAIN_PIN_X = 570;
+var MAIN_PIN_Y = 375;
+
 var adForm = document.querySelector('.ad-form');
 var mapFilters = document.querySelector('.map__filters');
 var adFieldset = adForm.querySelectorAll('fieldset');
@@ -38,6 +41,8 @@ var offerType = adForm.querySelector('#type');
 var price = adForm.querySelector('#price');
 var timeIn = adForm.querySelector('#timein');
 var timeOut = adForm.querySelector('#timeout');
+
+var resetForm = adForm.querySelector('.ad-form__reset');
 
 // adds mock data
 var getRandomInRange = function (min, max) {
@@ -91,13 +96,20 @@ var renderPin = function (ad) {
   return pinOfMap;
 };
 
-// adds pins to the map
+// adds pins to the map and removes pins
 var addPins = function () {
   for (var i = 0; i < adsCollection.length; i++) {
     fragment.appendChild(renderPin(adsCollection[i]));
   }
 
   allMapPins.appendChild(fragment);
+};
+
+var removePins = function () {
+  var pinsList = allMapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+  for (var i = 0; i < pinsList.length; i++) {
+    allMapPins.removeChild(pinsList[i]);
+  }
 };
 
 // switches disable attribute
@@ -196,14 +208,31 @@ var onMouseDown = function (evt) {
   document.addEventListener('mouseup', onMouseUp);
 };
 
+// resets form and map settings
+var onResetPage = function () {
+  map.classList.add('map--faded');
+  adForm.classList.add('ad-form--disabled');
+  switchDisableAttribute(adFieldset, true);
+  switchDisableAttribute(mapFieldset, true);
+  switchDisableAttribute(mapSelect, true);
+  adForm.reset();
+  mainPin.style.left = MAIN_PIN_X + 'px';
+  mainPin.style.top = MAIN_PIN_Y + 'px';
+  setAdressLocation(mainPin.style.left, mainPin.style.top);
+  removePins();
+};
+
 mainPin.addEventListener('mousedown', onMouseDown);
 
 switchDisableAttribute(adFieldset, true);
 switchDisableAttribute(mapFieldset, true);
 switchDisableAttribute(mapSelect, true);
+setAdressLocation();
 
 timeIn.addEventListener('change', onFieldValueChange);
 timeOut.addEventListener('change', onFieldValueChange);
 offerType.addEventListener('change', onHousingTypeChange);
+
+resetForm.addEventListener('click', onResetPage);
 
 window.addEventListener('resize', onChangeDeviceWidth);

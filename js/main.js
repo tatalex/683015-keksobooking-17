@@ -26,7 +26,6 @@ var PIN_HEIGHT = 70;
 var MAIN_PIN_WIDTH = 65;
 var MAIN_PIN_HEIGHT = 65;
 
-var MAIN_PIN_X = 570;
 var MAIN_PIN_Y = 375;
 
 var adForm = document.querySelector('.ad-form');
@@ -216,7 +215,7 @@ var onResetPage = function () {
   switchDisableAttribute(mapFieldset, true);
   switchDisableAttribute(mapSelect, true);
   adForm.reset();
-  mainPin.style.left = MAIN_PIN_X + 'px';
+  mainPin.style.left = POSITION_MAX_X / 2 - PIN_WIDTH / 2 + 'px';
   mainPin.style.top = MAIN_PIN_Y + 'px';
   setAdressLocation(mainPin.style.left, mainPin.style.top);
   removePins();

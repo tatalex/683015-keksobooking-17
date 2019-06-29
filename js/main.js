@@ -2,10 +2,10 @@
 
 var ADS_AMOUNT = 8;
 var typesOfHousing = {
-  'palace': 10000,
-  'flat': 1000,
-  'house': 5000,
-  'bungalo': 0
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalo: 0
 };
 
 var map = document.querySelector('.map');
@@ -13,16 +13,20 @@ var allMapPins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
 
-var mapWidth = map.offsetWidth;
 
 var POSITION_MAX_Y = 630;
 var POSITION_MIN_Y = 130;
+
+var POSITION_MAX_X = map.offsetWidth;
+var POSITION_MIN_X = 0;
 
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
 var MAIN_PIN_WIDTH = 65;
 var MAIN_PIN_HEIGHT = 65;
+
+var MAIN_PIN_Y = 375;
 
 var adForm = document.querySelector('.ad-form');
 var mapFilters = document.querySelector('.map__filters');
@@ -37,6 +41,8 @@ var price = adForm.querySelector('#price');
 var timeIn = adForm.querySelector('#timein');
 var timeOut = adForm.querySelector('#timeout');
 
+var resetForm = adForm.querySelector('.ad-form__reset');
+
 // adds mock data
 var getRandomInRange = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -44,6 +50,10 @@ var getRandomInRange = function (min, max) {
 
 var getRandomElementFromArray = function (array) {
   return array[getRandomInRange(0, array.length)];
+};
+
+var onChangeDeviceWidth = function () {
+  POSITION_MAX_X = map.offsetWidth;
 };
 
 
@@ -56,7 +66,7 @@ var generateAd = function (index) {
       type: getRandomElementFromArray(typesOfHousing)
     },
     location: {
-      x: getRandomInRange(0, mapWidth),
+      x: getRandomInRange(POSITION_MIN_X, POSITION_MAX_X),
       y: getRandomInRange(POSITION_MIN_Y, POSITION_MAX_Y)
     }
   };
@@ -85,13 +95,20 @@ var renderPin = function (ad) {
   return pinOfMap;
 };
 
-// adds pins to the map
+// adds pins to the map and removes pins
 var addPins = function () {
   for (var i = 0; i < adsCollection.length; i++) {
     fragment.appendChild(renderPin(adsCollection[i]));
   }
 
   allMapPins.appendChild(fragment);
+};
+
+var removePins = function () {
+  var pinsList = allMapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+  for (var i = 0; i < pinsList.length; i++) {
+    allMapPins.removeChild(pinsList[i]);
+  }
 };
 
 // switches disable attribute
@@ -102,22 +119,20 @@ var switchDisableAttribute = function (elements, value) {
 };
 
 // adds location to address field
-var setAdressLocation = function () {
-  var locationX = mainPin.offsetLeft + MAIN_PIN_WIDTH / 2;
-  var locationY = mainPin.offsetTop + MAIN_PIN_HEIGHT / 2;
-  address.value = locationX + ', ' + locationY;
+var setAdressLocation = function (coordinateX, coordinateY) {
+  coordinateX = Math.ceil(mainPin.offsetLeft + MAIN_PIN_WIDTH / 2);
+  coordinateY = Math.ceil(mainPin.offsetTop + MAIN_PIN_HEIGHT);
+  address.value = coordinateX + ', ' + coordinateY;
 };
 
 // creates function for active state
-var onPinClick = function () {
+var activateMap = function () {
   switchDisableAttribute(adFieldset, false);
   switchDisableAttribute(mapFieldset, false);
   switchDisableAttribute(mapSelect, false);
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   addPins();
-  setAdressLocation();
-  mainPin.removeEventListener('click', onPinClick);
 };
 
 // synchronizes the time of departure and entry
@@ -135,13 +150,88 @@ var onHousingTypeChange = function () {
   price.placeholder = minPriceOfType;
 };
 
+// adds function to activate map and move the main pin
+var onMouseDown = function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (evtMove) {
+    evtMove.preventDefault();
+
+    var shift = {
+      x: startCoords.x - evtMove.clientX,
+      y: startCoords.y - evtMove.clientY
+    };
+
+    startCoords = {
+      x: evtMove.clientX,
+      y: evtMove.clientY
+    };
+
+    var currentCoordinateX = mainPin.offsetLeft - shift.x;
+    var currentCoordinateY = mainPin.offsetTop - shift.y;
+
+    if (currentCoordinateY <= POSITION_MIN_Y - MAIN_PIN_HEIGHT) {
+      currentCoordinateY = POSITION_MIN_Y - MAIN_PIN_HEIGHT;
+    }
+    if (currentCoordinateY >= POSITION_MAX_Y - MAIN_PIN_HEIGHT) {
+      currentCoordinateY = POSITION_MAX_Y - MAIN_PIN_HEIGHT;
+    }
+    if (currentCoordinateX <= POSITION_MIN_X) {
+      currentCoordinateX = POSITION_MIN_X;
+    }
+    if (currentCoordinateX >= POSITION_MAX_X - MAIN_PIN_WIDTH) {
+      currentCoordinateX = POSITION_MAX_X - MAIN_PIN_WIDTH;
+    }
+
+    mainPin.style.left = currentCoordinateX + 'px';
+    mainPin.style.top = currentCoordinateY + 'px';
+
+    setAdressLocation(currentCoordinateX, currentCoordinateY);
+  };
+
+  var onMouseUp = function (evtUp) {
+    evtUp.preventDefault();
+    activateMap();
+
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+};
+
+// resets form and map settings
+var onResetPage = function () {
+  map.classList.add('map--faded');
+  adForm.classList.add('ad-form--disabled');
+  switchDisableAttribute(adFieldset, true);
+  switchDisableAttribute(mapFieldset, true);
+  switchDisableAttribute(mapSelect, true);
+  adForm.reset();
+  mainPin.style.left = POSITION_MAX_X / 2 - PIN_WIDTH / 2 + 'px';
+  mainPin.style.top = MAIN_PIN_Y + 'px';
+  setAdressLocation(mainPin.style.left, mainPin.style.top);
+  removePins();
+};
+
+mainPin.addEventListener('mousedown', onMouseDown);
+
 switchDisableAttribute(adFieldset, true);
 switchDisableAttribute(mapFieldset, true);
 switchDisableAttribute(mapSelect, true);
-
-mainPin.addEventListener('click', onPinClick);
-mainPin.addEventListener('mouseup', onPinClick);
+setAdressLocation();
 
 timeIn.addEventListener('change', onFieldValueChange);
 timeOut.addEventListener('change', onFieldValueChange);
 offerType.addEventListener('change', onHousingTypeChange);
+
+resetForm.addEventListener('click', onResetPage);
+
+window.addEventListener('resize', onChangeDeviceWidth);

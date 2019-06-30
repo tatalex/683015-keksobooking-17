@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-   var typesOfHousing = {
+  var typesOfHousing = {
     palace: 10000,
     flat: 1000,
     house: 5000,

@@ -21,16 +21,6 @@
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 65;
 
-  window.mainPin = mainPin;
-  window.map = map;
-  window.ADS_AMOUNT = ADS_AMOUNT;
-  window.POSITION_MAX_X = POSITION_MAX_X;
-  window.POSITION_MIN_X = POSITION_MIN_X;
-  window.POSITION_MAX_Y = POSITION_MAX_Y;
-  window.POSITION_MIN_Y = POSITION_MIN_Y;
-  window.MAIN_PIN_WIDTH = MAIN_PIN_WIDTH;
-  window.MAIN_PIN_HEIGHT = MAIN_PIN_HEIGHT;
-
   // renders pin
   var renderPin = function (ad) {
     var pinOfMap = pinTemplate.cloneNode(true);
@@ -121,6 +111,17 @@
   };
 
   mainPin.addEventListener('mousedown', onMouseDown);
+
+
+  window.mainPin = mainPin;
+  window.map = map;
+  window.ADS_AMOUNT = ADS_AMOUNT;
+  window.POSITION_MAX_X = POSITION_MAX_X;
+  window.POSITION_MIN_X = POSITION_MIN_X;
+  window.POSITION_MAX_Y = POSITION_MAX_Y;
+  window.POSITION_MIN_Y = POSITION_MIN_Y;
+  window.MAIN_PIN_WIDTH = MAIN_PIN_WIDTH;
+  window.MAIN_PIN_HEIGHT = MAIN_PIN_HEIGHT;
 
   window.pin = {
     removePins: removePins

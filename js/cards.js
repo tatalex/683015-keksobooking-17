@@ -1,14 +1,12 @@
 'use strict';
 
 (function () {
-  var typesOfHousing = {
+  var TYPES_OF_HOUSING = {
     palace: 10000,
     flat: 1000,
     house: 5000,
     bungalo: 0
   };
-
-  window.typesOfHousing = typesOfHousing;
 
   // adds mock data
   var generateAd = function (index) {
@@ -17,7 +15,7 @@
         avatar: 'img/avatars/user0' + index + '.png'
       },
       offer: {
-        type: window.utils.getRandomElementFromArray(typesOfHousing)
+        type: window.utils.getRandomElementFromArray(TYPES_OF_HOUSING)
       },
       location: {
         x: window.utils.getRandomInRange(window.POSITION_MIN_X, window.POSITION_MAX_X),
@@ -34,6 +32,8 @@
 
     return ads;
   };
+
+  window.TYPES_OF_HOUSING = TYPES_OF_HOUSING;
 
   window.cards = {
     generateAds: generateAds

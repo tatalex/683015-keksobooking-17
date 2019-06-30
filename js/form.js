@@ -14,13 +14,6 @@
   var timeOut = adForm.querySelector('#timeout');
 
   var resetForm = adForm.querySelector('.ad-form__reset');
-  var MAIN_PIN_Y = 375;
-
-  window.adForm = adForm;
-  window.mapFieldset = mapFieldset;
-  window.mapSelect = mapSelect;
-  window.adFieldset = adFieldset;
-
 
   // switches disable attribute
   var switchDisableAttribute = function (elements, value) {
@@ -38,7 +31,7 @@
 
   // synchronizes housing type and price
   var onHousingTypeChange = function () {
-    var minPriceOfType = window.typesOfHousing[offerType.value];
+    var minPriceOfType = window.TYPES_OF_HOUSING[offerType.value];
 
     price.min = minPriceOfType;
     price.placeholder = minPriceOfType;
@@ -51,20 +44,6 @@
     address.value = coordinateX + ', ' + coordinateY;
   };
 
-  // resets form and map settings
-  var onResetPage = function () {
-    window.map.classList.add('map--faded');
-    adForm.classList.add('ad-form--disabled');
-    switchDisableAttribute(adFieldset, true);
-    switchDisableAttribute(mapFieldset, true);
-    switchDisableAttribute(mapSelect, true);
-    adForm.reset();
-    window.mainPin.style.left = window.POSITION_MAX_X / 2 - window.MAIN_PIN_WIDTH / 2 + 'px';
-    window.mainPin.style.top = MAIN_PIN_Y + 'px';
-    setAdressLocation(window.mainPin.style.left, window.mainPin.style.top);
-    window.pin.removePins();
-  };
-
   setAdressLocation();
   switchDisableAttribute(adFieldset, true);
   switchDisableAttribute(mapFieldset, true);
@@ -72,7 +51,12 @@
   timeIn.addEventListener('change', onFieldValueChange);
   timeOut.addEventListener('change', onFieldValueChange);
   offerType.addEventListener('change', onHousingTypeChange);
-  resetForm.addEventListener('click', onResetPage);
+  resetForm.addEventListener('click', window.maps.onResetPage);
+
+  window.adForm = adForm;
+  window.mapFieldset = mapFieldset;
+  window.mapSelect = mapSelect;
+  window.adFieldset = adFieldset;
 
   window.form = {
     switchDisableAttribute: switchDisableAttribute,

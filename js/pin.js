@@ -1,13 +1,10 @@
 'use strict';
 
 (function () {
-  var ADS_AMOUNT = 8;
   var mainPin = document.querySelector('.map__pin--main');
   var allMapPins = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var map = document.querySelector('.map');
-  var fragment = document.createDocumentFragment();
-  var firstActivation = true;
 
   var POSITION_MAX_Y = 630;
   var POSITION_MIN_Y = 130;
@@ -27,21 +24,12 @@
     pinOfMap.style.left = (ad.location.x - PIN_WIDTH / 2) + 'px';
     pinOfMap.style.top = (ad.location.y - PIN_HEIGHT) + 'px';
     pinOfMap.querySelector('img').src = ad.author.avatar;
-    pinOfMap.querySelector('img').alt = ad.offer.type;
+    pinOfMap.querySelector('img').alt = 'Заголовок объявления';
 
     return pinOfMap;
   };
 
-  // adds pins to the map and removes pins
-  var addPins = function () {
-    var adsCollection = window.cards.generateAds(ADS_AMOUNT);
-    for (var i = 0; i < adsCollection.length; i++) {
-      fragment.appendChild(renderPin(adsCollection[i]));
-    }
-
-    allMapPins.appendChild(fragment);
-  };
-
+  // removes pins
   var removePins = function () {
     var pinsList = allMapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var i = 0; i < pinsList.length; i++) {
@@ -95,12 +83,7 @@
 
     var onMouseUp = function (evtUp) {
       evtUp.preventDefault();
-      window.maps.activateMap();
-
-      if (firstActivation) {
-        addPins();
-        firstActivation = false;
-      }
+      window.maps.onActivateMap();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -115,7 +98,7 @@
 
   window.mainPin = mainPin;
   window.map = map;
-  window.ADS_AMOUNT = ADS_AMOUNT;
+  window.allMapPins = allMapPins;
   window.POSITION_MAX_X = POSITION_MAX_X;
   window.POSITION_MIN_X = POSITION_MIN_X;
   window.POSITION_MAX_Y = POSITION_MAX_Y;
@@ -124,6 +107,7 @@
   window.MAIN_PIN_HEIGHT = MAIN_PIN_HEIGHT;
 
   window.pin = {
+    renderPin: renderPin,
     removePins: removePins
   };
 })();

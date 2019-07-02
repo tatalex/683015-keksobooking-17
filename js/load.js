@@ -5,7 +5,7 @@
   var TIMEOUT_CODE = 10000;
   var URL = 'https://js.dump.academy/keksobooking/data';
 
-  var onUpload = function (onSuccess, onError) {
+  var requestData = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
@@ -33,6 +33,6 @@
   };
 
   window.load = {
-    onUpload: onUpload
+    requestData: requestData
   };
 })();

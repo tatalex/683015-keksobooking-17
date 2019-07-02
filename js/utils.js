@@ -2,17 +2,14 @@
 
 
 (function () {
-
-  var getRandomInRange = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
-  var getRandomElementFromArray = function (array) {
-    return array[getRandomInRange(0, array.length)];
+  // switches disable attribute
+  var switchDisableAttribute = function (elements, value) {
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].disabled = value;
+    }
   };
 
   window.utils = {
-    getRandomInRange: getRandomInRange,
-    getRandomElementFromArray: getRandomElementFromArray
+    switchDisableAttribute: switchDisableAttribute
   };
 })();

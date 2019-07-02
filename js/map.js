@@ -16,7 +16,7 @@
     window.map.classList.remove('map--faded');
     window.adForm.classList.remove('ad-form--disabled');
 
-   if (firstActivation) {
+    if (firstActivation) {
       window.load.onUpload(window.data.onSuccess, window.data.onError);
       firstActivation = false;
     }

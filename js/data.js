@@ -12,10 +12,10 @@
     main.appendChild(errorMessage);
 
     errorButton.addEventListener('click', function () {
-      main.removeChild(errorMessage)
+      main.removeChild(errorMessage);
     });
     errorMessage.addEventListener('click', function () {
-      main.removeChild(errorMessage)
+      main.removeChild(errorMessage);
     });
     window.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ESC_CODE) {

@@ -7,6 +7,12 @@
   var mapSelect = mapFilters.querySelectorAll('select');
   var mapFieldset = mapFilters.querySelectorAll('fieldset');
   var address = adForm.querySelector('#address');
+  var TYPES_OF_HOUSING = {
+    palace: 10000,
+    flat: 1000,
+    house: 5000,
+    bungalo: 0
+  };
 
   var offerType = adForm.querySelector('#type');
   var price = adForm.querySelector('#price');
@@ -14,13 +20,6 @@
   var timeOut = adForm.querySelector('#timeout');
 
   var resetForm = adForm.querySelector('.ad-form__reset');
-
-  // switches disable attribute
-  var switchDisableAttribute = function (elements, value) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = value;
-    }
-  };
 
   // synchronizes the time of departure and entry
   var onFieldValueChange = function (evt) {
@@ -31,7 +30,7 @@
 
   // synchronizes housing type and price
   var onHousingTypeChange = function () {
-    var minPriceOfType = window.TYPES_OF_HOUSING[offerType.value];
+    var minPriceOfType = TYPES_OF_HOUSING[offerType.value];
 
     price.min = minPriceOfType;
     price.placeholder = minPriceOfType;
@@ -45,9 +44,9 @@
   };
 
   setAdressLocation();
-  switchDisableAttribute(adFieldset, true);
-  switchDisableAttribute(mapFieldset, true);
-  switchDisableAttribute(mapSelect, true);
+  window.utils.switchDisableAttribute(adFieldset, true);
+  window.utils.switchDisableAttribute(mapFieldset, true);
+  window.utils.switchDisableAttribute(mapSelect, true);
   timeIn.addEventListener('change', onFieldValueChange);
   timeOut.addEventListener('change', onFieldValueChange);
   offerType.addEventListener('change', onHousingTypeChange);
@@ -59,7 +58,6 @@
   window.adFieldset = adFieldset;
 
   window.form = {
-    switchDisableAttribute: switchDisableAttribute,
     setAdressLocation: setAdressLocation
   };
 })();

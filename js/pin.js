@@ -135,7 +135,7 @@
   };
 
   window.pin = {
-    updatePins:updatePins,
+    updatePins: updatePins,
     renderPin: renderPin,
     renderPins: renderPins,
     removePins: removePins

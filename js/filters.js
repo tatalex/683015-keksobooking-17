@@ -28,7 +28,7 @@
     });
   };
 
-   window.filters = {
+  window.filters = {
     pinFilter: pinFilter
   };
 })();

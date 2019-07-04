@@ -5,7 +5,7 @@
   var firstActivation = true;
 
   var onChangeDeviceWidth = function () {
-    window.POSITION_MAX_X = window.map.offsetWidth;
+    window.LimitLocation.POSITION_MAX_X = window.map.offsetWidth;
   };
 
   // creates function for active state
@@ -30,7 +30,7 @@
     window.utils.switchDisableAttribute(window.mapFieldset, true);
     window.utils.switchDisableAttribute(window.mapSelect, true);
     window.adForm.reset();
-    window.mainPin.style.left = window.POSITION_MAX_X / 2 - window.MAIN_PIN_WIDTH / 2 + 'px';
+    window.mainPin.style.left = window.LimitLocation.POSITION_MAX_X / 2 - window.PinSize.MAIN_PIN_WIDTH / 2 + 'px';
     window.mainPin.style.top = MAIN_PIN_Y + 'px';
     window.form.setAdressLocation(window.mainPin.style.left, window.mainPin.style.top);
     window.pin.removePins();

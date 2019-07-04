@@ -38,8 +38,8 @@
 
   // adds location to address field
   var setAdressLocation = function (coordinateX, coordinateY) {
-    coordinateX = Math.ceil(window.mainPin.offsetLeft + window.MAIN_PIN_WIDTH / 2);
-    coordinateY = Math.ceil(window.mainPin.offsetTop + window.MAIN_PIN_HEIGHT);
+    coordinateX = Math.ceil(window.mainPin.offsetLeft + window.PinSize.MAIN_PIN_WIDTH / 2);
+    coordinateY = Math.ceil(window.mainPin.offsetTop + window.PinSize.MAIN_PIN_HEIGHT);
     address.value = coordinateX + ', ' + coordinateY;
   };
 

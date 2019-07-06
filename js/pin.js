@@ -50,7 +50,6 @@
     pins.forEach(function (pin) {
       pin.remove();
     });
-    pins = [];
   };
 
   var updatePins = function (objects) {

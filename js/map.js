@@ -17,7 +17,7 @@
     window.adForm.classList.remove('ad-form--disabled');
 
     if (firstActivation) {
-      window.load.requestData(window.data.onSuccess, window.data.onError);
+      window.backend.getStoredtData(window.data.onSuccess, window.data.onError);
       firstActivation = false;
     }
   };

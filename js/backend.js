@@ -3,9 +3,9 @@
 (function () {
   var SUCCESS_CODE = 200;
   var TIMEOUT_CODE = 10000;
-  var URL = 'https://js.dump.academy/keksobooking/data';
+  var GET_URL = 'https://js.dump.academy/keksobooking/data';
 
-  var onUpload = function (onSuccess, onError) {
+  var storedtData = function (onSuccess, onError, method, url) {
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
@@ -28,11 +28,16 @@
 
     xhr.timeout = TIMEOUT_CODE;
 
-    xhr.open('GET', URL);
+    xhr.open(method, url);
+    return xhr;
+  };
+
+  var getStoredtData = function (onSuccess, onError) {
+    var xhr = storedtData(onSuccess, onError, 'GET', GET_URL);
     xhr.send();
   };
 
-  window.load = {
-    onUpload: onUpload
+  window.backend = {
+    getStoredtData: getStoredtData
   };
 })();

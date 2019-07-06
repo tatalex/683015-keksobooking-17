@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var ADS_AMOUNT = 8;
   var ESC_CODE = 27;
   var main = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var errorMessage = errorTemplate.cloneNode(true);
   var errorButton = errorMessage.querySelector('.error__button');
+
 
   var onError = function () {
     main.appendChild(errorMessage);
@@ -25,11 +25,9 @@
   };
 
   var onSuccess = function (objects) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < ADS_AMOUNT; i++) {
-      fragment.appendChild(window.pin.renderPin(objects[i]));
-    }
-    window.allMapPins.appendChild(fragment);
+    window.pin.updatePins(objects);
+    window.filters.pinFilter(objects);
+    window.utils.debounce(window.filters.pinFilter(objects));
   };
 
   window.data = {

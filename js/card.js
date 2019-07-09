@@ -3,7 +3,7 @@
 
 (function () {
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-  var filtersContainer = map.querySelector('.map__filters-container');
+  var filtersContainer = window.map.querySelector('.map__filters-container');
   var cardOfMap = cardTemplate.cloneNode(true);
   var housingTypeMap = {
     'palace': 'Дворец',

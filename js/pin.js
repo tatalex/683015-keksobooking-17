@@ -25,6 +25,7 @@
   // renders pin
   var renderPin = function (ad) {
     var pinOfMap = pinTemplate.cloneNode(true);
+
     pinOfMap.style.left = (ad.location.x - PinSize.PIN_WIDTH / 2) + 'px';
     pinOfMap.style.top = (ad.location.y - PinSize.PIN_HEIGHT) + 'px';
     pinOfMap.querySelector('img').src = ad.author.avatar;
@@ -55,6 +56,7 @@
   var updatePins = function (objects) {
     removePins();
     allMapPins.appendChild(renderPins(objects));
+    allMapPins.appendChild(window.card.renderCards(objects));
   };
 
   // adds function to activate map and move the main pin

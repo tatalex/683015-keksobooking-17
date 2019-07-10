@@ -30,6 +30,8 @@
     window.utils.debounce(window.filters.pinFilter(objects));
   };
 
+  window.ESC_CODE = 27;
+
   window.data = {
     onError: onError,
     onSuccess: onSuccess

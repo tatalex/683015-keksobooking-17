@@ -4,7 +4,9 @@
 (function () {
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var filtersContainer = window.map.querySelector('.map__filters-container');
-  var cardOfMap = cardTemplate.cloneNode(true);
+  var popupMapCard = document.querySelector('.popup');
+  var closeButton = document.querySelector('.popup__close');
+  var pinCards = [];
   var housingTypeMap = {
     'palace': 'Дворец',
     'flat': 'Квартира',
@@ -40,6 +42,7 @@
 
 
   var renderCard = function (card) {
+    var cardOfMap = cardTemplate.cloneNode(true);
     cardOfMap.querySelector('img').src = card.author.avatar;
     cardOfMap.querySelector('.popup__title').textContent = card.offer.title;
     cardOfMap.querySelector('.popup__text--address').textContent = card.offer.address;
@@ -50,21 +53,54 @@
     cardOfMap.querySelector('.popup__description').textContent = card.offer.description;
     createPhotos(cardOfMap.querySelector('.popup__photos'), card.offer.photos);
     createFeatures(cardOfMap.querySelector('.popup__features'), card.offer.features);
-
+    cardOfMap.classList.add('hidden');
     return cardOfMap;
   };
 
   var renderCards = function (cards) {
     var fragment = document.createDocumentFragment();
-    cards.slice(0, 1).forEach(function (card) {
-      return fragment.appendChild(renderCard(card));
-    });
-    window.map.insertBefore(cardOfMap, filtersContainer);
-
+    for (var i = 0; i < cards.length; i++) {
+      var card = renderCard(cards[i]);
+      pinCards.push(card);
+      fragment.appendChild(card);
+    }
     return fragment;
   };
 
-  window.card = {
-    renderCards: renderCards
+  var onPopupEscPress = function (evt) {
+    if (evt.keyCode === window.ESC_CODE) {
+      popupMapCard.classList.add('hidden');
+    };
   };
+
+  var onClosePopup = function () {
+    popupMapCard.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  var onOpenPopup = function () {
+    popupMapCard.classList.remove('hidden');
+  };
+
+  var addCards = function (objects) {
+    var fragments = renderCards(objects);
+
+    var pinsWithoutMain = window.map.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var i = 0; i < pinsWithoutMain.length; i++) {
+      pinsWithoutMain[i].addEventListener('click', function (pin) {
+        pinCards.forEach(function (card){
+          card.classList.add('hidden');
+        });
+
+        pinCards[pin.path[1].id].classList.remove('hidden');
+      });
+    }
+    return fragments;
+  };
+
+
+  window.card = {
+    addCards: addCards
+  };
+
 })();

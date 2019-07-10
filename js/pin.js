@@ -30,7 +30,7 @@
     pinOfMap.style.top = (ad.location.y - PinSize.PIN_HEIGHT) + 'px';
     pinOfMap.querySelector('img').src = ad.author.avatar;
     pinOfMap.querySelector('img').alt = ad.offer.title;
-    pinOfMap.id = id
+    pinOfMap.id = id;
     return pinOfMap;
   };
 

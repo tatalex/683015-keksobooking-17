@@ -3,9 +3,9 @@
 
 (function () {
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-  //var filtersContainer = window.map.querySelector('.map__filters-container');
-  var popupMapCard = document.querySelector('.popup');
-  //var closeButton = document.querySelector('.popup__close');
+  // var filtersContainer = window.map.querySelector('.map__filters-container');
+  // var popupMapCard = document.querySelector('.popup');
+  // var closeButton = document.querySelector('.popup__close');
   var pinCards = [];
   var housingTypeMap = {
     'palace': 'Дворец',

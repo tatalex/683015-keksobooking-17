@@ -3,9 +3,9 @@
 
 (function () {
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-  var filtersContainer = window.map.querySelector('.map__filters-container');
+  //var filtersContainer = window.map.querySelector('.map__filters-container');
   var popupMapCard = document.querySelector('.popup');
-  var closeButton = document.querySelector('.popup__close');
+  //var closeButton = document.querySelector('.popup__close');
   var pinCards = [];
   var housingTypeMap = {
     'palace': 'Дворец',
@@ -67,10 +67,12 @@
     return fragment;
   };
 
+  /* code for listeners
+
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === window.ESC_CODE) {
       popupMapCard.classList.add('hidden');
-    };
+    }
   };
 
   var onClosePopup = function () {
@@ -80,7 +82,7 @@
 
   var onOpenPopup = function () {
     popupMapCard.classList.remove('hidden');
-  };
+  };*/
 
   var addCards = function (objects) {
     var fragments = renderCards(objects);
@@ -88,7 +90,7 @@
     var pinsWithoutMain = window.map.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var i = 0; i < pinsWithoutMain.length; i++) {
       pinsWithoutMain[i].addEventListener('click', function (pin) {
-        pinCards.forEach(function (card){
+        pinCards.forEach(function (card) {
           card.classList.add('hidden');
         });
 
@@ -102,5 +104,4 @@
   window.card = {
     addCards: addCards
   };
-
 })();

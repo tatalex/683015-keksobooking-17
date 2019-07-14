@@ -4,6 +4,7 @@
   var SUCCESS_CODE = 200;
   var TIMEOUT_CODE = 10000;
   var GET_URL = 'https://js.dump.academy/keksobooking/data';
+  var POST_URL = 'https://js.dump.academy/keksobooking';
 
   var storedtData = function (onSuccess, onError, method, url) {
     var xhr = new XMLHttpRequest();
@@ -37,7 +38,14 @@
     xhr.send();
   };
 
+  var sendStoredtData = function (data, onSuccess, onError) {
+    var xhr = storedtData(onSuccess, onError);
+    xhr.open('POST', POST_URL);
+    xhr.send(data);
+  };
+
   window.backend = {
-    getStoredtData: getStoredtData
+    getStoredtData: getStoredtData,
+    sendStoredtData: sendStoredtData
   };
 })();

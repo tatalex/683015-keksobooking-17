@@ -7,19 +7,30 @@
   var mapSelect = mapFilters.querySelectorAll('select');
   var mapFieldset = mapFilters.querySelectorAll('fieldset');
   var address = adForm.querySelector('#address');
+  var selectRooms = adForm.querySelector('select[name="rooms"]');
+  var selectCapacity = adForm.querySelector('select[name="capacity"]');
+  var capacityOption = selectCapacity.querySelectorAll('option');
+  var offerType = adForm.querySelector('#type');
+  var price = adForm.querySelector('#price');
+  var timeIn = adForm.querySelector('#timein');
+  var timeOut = adForm.querySelector('#timeout');
+  var resetForm = adForm.querySelector('.ad-form__reset');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var main = document.querySelector('main');
+
+  var numberOfVisitors = {
+    '1': ['1'],
+    '2': ['1', '2'],
+    '3': ['1', '2', '3'],
+    '100': ['0']
+  };
   var TYPES_OF_HOUSING = {
     palace: 10000,
     flat: 1000,
     house: 5000,
     bungalo: 0
   };
-
-  var offerType = adForm.querySelector('#type');
-  var price = adForm.querySelector('#price');
-  var timeIn = adForm.querySelector('#timein');
-  var timeOut = adForm.querySelector('#timeout');
-
-  var resetForm = adForm.querySelector('.ad-form__reset');
 
   // synchronizes the time of departure and entry
   var onFieldValueChange = function (evt) {
@@ -43,7 +54,27 @@
     address.value = coordinateX + ', ' + coordinateY;
   };
 
+  var onRoomsCountChange = function () {
+    capacityOption.forEach(function (element) {
+      element.disabled = !numberOfVisitors[selectRooms.value].includes(element.value);
+    });
+
+    selectCapacity.value = numberOfVisitors[selectRooms.value].includes(selectCapacity.value) ? selectCapacity.value : numberOfVisitors[selectRooms.value][0];
+  };
+
+  var onSuccessSend = function () {
+    var successElement = successTemplate.cloneNode(true);
+    main.appendChild(successElement);
+  };
+
+  var onErrorSend = function () {
+    var errorElement = errorTemplate.cloneNode(true);
+    main.appendChild(errorElement);
+  };
+
+  onRoomsCountChange();
   setAdressLocation();
+  selectRooms.addEventListener('change', onRoomsCountChange);
   window.utils.switchDisableAttribute(adFieldset, true);
   window.utils.switchDisableAttribute(mapFieldset, true);
   window.utils.switchDisableAttribute(mapSelect, true);
@@ -51,6 +82,10 @@
   timeOut.addEventListener('change', onFieldValueChange);
   offerType.addEventListener('change', onHousingTypeChange);
   resetForm.addEventListener('click', window.maps.onResetPage);
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.sendStoredtData(new FormData(adForm), onSuccessSend, onErrorSend);
+  });
 
   window.adForm = adForm;
   window.mapFieldset = mapFieldset;

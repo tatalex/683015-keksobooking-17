@@ -76,13 +76,9 @@
 
   var onClosePopup = function () {
     pinCards.forEach(function (card) {
-          card.classList.add('hidden');
-        });
+      card.classList.add('hidden');
+    });
     document.removeEventListener('keydown', onPopupEscPress);
-  };
-
-  var onOpenPopup = function () {
-    popupMapCard.classList.remove('hidden');
   };
 
   var addCards = function (objects) {
@@ -99,22 +95,22 @@
         pinCards[getDataId(event)].classList.remove('hidden');
 
         var closeButton = document.querySelectorAll('.popup__close');
-        closeButton.forEach(function(button){
+        closeButton.forEach(function (button) {
           button.addEventListener('click', onClosePopup);
         });
 
-        document.addEventListener('keydown', onPopupEscPress)
+        document.addEventListener('keydown', onPopupEscPress);
       });
     }
 
     return fragments;
   };
 
-  var getDataId = function(evt) {
+  var getDataId = function (evt) {
     if (evt.target.tagName === 'IMG') {
       var id = evt.target.offsetParent.dataId;
     } else {
-      var id = evt.target.dataId;
+      id = evt.target.dataId;
     }
     return id;
   };

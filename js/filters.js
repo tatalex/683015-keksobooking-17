@@ -5,22 +5,14 @@
   var mapFilters = document.querySelector('.map__filters');
   var filteredAds = window.backend.getStoredData;
   var houseTypeFilter = document.querySelector('#housing-type');
-  var housingFeatures = window.map.querySelector('#housing-features');
-  var housingRooms = mapFilters.elements['housing-rooms'];
-
-
-  var features = document.querySelector('.map__filters').querySelectorAll('input');
-  var checkedFeatures = [];
 
   var filterByType = function (type) {
     var refreshedAds = filteredAds;
-    refreshedAds = type == TYPE_DEFAULT_VALUE ? refreshedAds : refreshedAds.filter(function (it) {
-        return it.offer.type === type;
-      });
+    refreshedAds = type === TYPE_DEFAULT_VALUE ? refreshedAds : refreshedAds.filter(function (it) {
+      return it.offer.type === type;
+    });
     window.pin.updatePins(refreshedAds);
   };
-
-
 
   var pinFilter = function (data) {
     filteredAds = data;
@@ -29,9 +21,6 @@
       filterByType(evt.target.value);
     });
   };
-
-
-
 
   window.filters = {
     pinFilter: pinFilter

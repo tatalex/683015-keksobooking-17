@@ -17,7 +17,10 @@
   var resetForm = adForm.querySelector('.ad-form__reset');
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var successMessage = successTemplate.cloneNode(true);
+  var errorMessage = errorTemplate.cloneNode(true);
   var main = document.querySelector('main');
+  var errorButton = errorTemplate.querySelector('.error__button');
 
   var numberOfVisitors = {
     '1': ['1'],
@@ -62,14 +65,38 @@
     selectCapacity.value = numberOfVisitors[selectRooms.value].includes(selectCapacity.value) ? selectCapacity.value : numberOfVisitors[selectRooms.value][0];
   };
 
+  var removeStatusMessage = function (evt, message) {
+    if (evt.type === 'click' || evt.keyCode === window.ESC_CODE) {
+      main.removeChild(message);
+      document.removeEventListener('keydown', removeStatusMessage);
+      document.removeEventListener('click', removeStatusMessage);
+    }
+  };
+
   var onSuccessSend = function () {
-    var successElement = successTemplate.cloneNode(true);
-    main.appendChild(successElement);
+    main.appendChild(successMessage);
+    window.maps.onResetPage();
+
+    document.addEventListener('click', function (evt) {
+      removeStatusMessage(evt, successMessage);
+    });
+    document.addEventListener('keydown', function (evt) {
+      removeStatusMessage(evt, successMessage);
+    });
   };
 
   var onErrorSend = function () {
-    var errorElement = errorTemplate.cloneNode(true);
-    main.appendChild(errorElement);
+    main.appendChild(errorMessage);
+
+    document.addEventListener('click', function (evt) {
+      removeStatusMessage(evt, errorMessage);
+    });
+    document.addEventListener('keydown', function (evt) {
+      removeStatusMessage(evt, errorMessage);
+    });
+    errorButton.addEventListener('click', function (evt) {
+      removeStatusMessage(evt, errorMessage);
+    });
   };
 
   onRoomsCountChange();

@@ -2,7 +2,6 @@
 
 (function () {
   var TYPE_DEFAULT_VALUE = 'any';
-  var mapFilters = document.querySelector('.map__filters');
   var filteredAds = window.backend.getStoredData;
   var houseTypeFilter = document.querySelector('#housing-type');
 

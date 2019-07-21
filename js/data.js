@@ -27,7 +27,6 @@
   var onSuccess = function (objects) {
     window.pin.updatePins(objects);
     window.filters.pinFilter(objects);
-    window.utils.debounce(window.filters.pinFilter(objects));
   };
 
   window.ESC_CODE = 27;

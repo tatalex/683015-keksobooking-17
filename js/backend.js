@@ -3,8 +3,10 @@
 (function () {
   var SUCCESS_CODE = 200;
   var TIMEOUT_CODE = 10000;
-  var GET_URL = 'https://js.dump.academy/keksobooking/data';
-  var POST_URL = 'https://js.dump.academy/keksobooking';
+  var Url = {
+    GET: 'https://js.dump.academy/keksobooking/data',
+    POST: 'https://js.dump.academy/keksobooking'
+  };
 
   var storedtData = function (onSuccess, onError, method, url) {
     var xhr = new XMLHttpRequest();
@@ -34,13 +36,13 @@
   };
 
   var getStoredtData = function (onSuccess, onError) {
-    var xhr = storedtData(onSuccess, onError, 'GET', GET_URL);
+    var xhr = storedtData(onSuccess, onError, 'GET', Url.GET);
     xhr.send();
   };
 
   var sendStoredtData = function (data, onSuccess, onError) {
     var xhr = storedtData(onSuccess, onError);
-    xhr.open('POST', POST_URL);
+    xhr.open('POST', Url.POST);
     xhr.send(data);
   };
 

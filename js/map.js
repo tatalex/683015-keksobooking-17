@@ -35,6 +35,10 @@
     window.form.setAdressLocation(window.mainPin.style.left, window.mainPin.style.top);
     window.pin.removePins();
     firstActivation = true;
+
+    window.timeIn.removeEventListener('change', window.form.onFieldValueChange);
+    window.timeOut.removeEventListener('change', window.form.onFieldValueChange);
+    window.offerType.removeEventListener('change', window.form.onHousingTypeChange);
   };
 
   window.addEventListener('resize', onChangeDeviceWidth);

@@ -38,8 +38,8 @@
     var fragment = document.createDocumentFragment();
     var quantity = objects.length < ADS_AMOUNT ? objects.length : ADS_AMOUNT;
     for (var i = 0; i < quantity; i++) {
-      if ('offer' in objects[i]) {
-        var pin = renderPin(objects[i], i);
+      if (objects[i] && objects[i].offer) {
+        var pin = renderPin(objects[i], objects[i].id);
         pins.push(pin);
         fragment.appendChild(pin);
       }

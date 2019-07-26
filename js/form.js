@@ -28,7 +28,7 @@
     '3': ['1', '2', '3'],
     '100': ['0']
   };
-  var TYPES_OF_HOUSING = {
+  var typesOfHousing = {
     palace: 10000,
     flat: 1000,
     house: 5000,
@@ -44,7 +44,7 @@
 
   // synchronizes housing type and price
   var onHousingTypeChange = function () {
-    var minPriceOfType = TYPES_OF_HOUSING[offerType.value];
+    var minPriceOfType = typesOfHousing[offerType.value];
 
     price.min = minPriceOfType;
     price.placeholder = minPriceOfType;
@@ -118,8 +118,14 @@
   window.mapFieldset = mapFieldset;
   window.mapSelect = mapSelect;
   window.adFieldset = adFieldset;
+  window.timeIn = timeIn;
+  window.timeOut = timeOut;
+  window.offerType = offerType;
 
   window.form = {
-    setAdressLocation: setAdressLocation
+    setAdressLocation: setAdressLocation,
+    onFieldValueChange: onFieldValueChange,
+    onHousingTypeChange: onHousingTypeChange
+
   };
 })();

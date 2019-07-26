@@ -58,7 +58,7 @@
   var renderCards = function (cards) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < cards.length; i++) {
-      var card = renderCard(cards[i], i);
+      var card = renderCard(cards[i], cards[i].id);
       pinCards.push(card);
       fragment.appendChild(card);
     }
@@ -89,10 +89,14 @@
     var pinsWithoutMain = window.map.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var i = 0; i < pinsWithoutMain.length; i++) {
       pinsWithoutMain[i].addEventListener('click', function (event) {
-        pinCards.forEach(function (card) {
-          card.classList.add('hidden');
+        onClosePopup();
+        console.log(event)
+        pinCards.forEach(function(card){
+          if (card.classList.dataId === getDataId(event)){
+            console.log(card.classList.dataId, getDataId(event))
+            card.classList.remove('hidden');
+          }
         });
-        pinCards[getDataId(event)].classList.remove('hidden');
 
         var closeButton = document.querySelectorAll('.popup__close');
         closeButton.forEach(function (button) {
@@ -106,6 +110,13 @@
     return fragments;
   };
 
+  var deleteCard = function () {
+    pinCards.forEach(function (card) {
+      card.classList.add('hidden');
+    });
+  };
+
+
   var getDataId = function (evt) {
     if (evt.target.tagName === 'IMG') {
       var id = evt.target.offsetParent.dataId;
@@ -117,6 +128,7 @@
 
 
   window.card = {
-    addCards: addCards
+    addCards: addCards,
+    onClosePopup: onClosePopup
   };
 })();

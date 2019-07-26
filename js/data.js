@@ -25,6 +25,9 @@
   };
 
   var onSuccess = function (objects) {
+    objects.forEach(function(obj){
+      obj.id = Math.random().toString(36).substr(2, 9);
+    });
     window.pin.updatePins(objects);
     window.filters.pinFilter(objects);
   };

@@ -99,13 +99,9 @@
   };
 
   setAdressLocation();
-  selectRooms.addEventListener('change', onRoomsCountChange);
   window.utils.switchDisableAttribute(adFieldset, true);
   window.utils.switchDisableAttribute(adInput, true);
   window.utils.switchDisableAttribute(adSelect, true);
-  timeIn.addEventListener('change', onFieldValueChange);
-  timeOut.addEventListener('change', onFieldValueChange);
-  offerType.addEventListener('change', onHousingTypeChange);
   resetForm.addEventListener('click', window.map.onResetPage);
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();

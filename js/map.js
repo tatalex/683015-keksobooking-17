@@ -23,6 +23,10 @@
       window.backend.getStoredtData(window.data.onSuccess, window.data.onError);
       firstActivation = false;
     }
+    window.form.timeIn.addEventListener('change', window.form.onFieldValueChange);
+    window.form.timeOut.addEventListener('change', window.form.onFieldValueChange);
+    window.form.offerType.addEventListener('change', window.form.onHousingTypeChange);
+    window.form.selectRooms.addEventListener('change', window.form.onRoomsCountChange);
   };
 
   // resets form and map settings

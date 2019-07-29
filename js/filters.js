@@ -2,16 +2,19 @@
 
 (function () {
   var TYPE_DEFAULT_VALUE = 'any';
-  var filteredAds = window.backend.getStoredData;
-  var featuresFilter = document.querySelectorAll('.map__filter');
-  var checkboxFilter = document.querySelectorAll('input.map__checkbox');
+  var adsData = window.backend.getStoredData;
+  var filtersOfMap = document.querySelector('.map__filters');
+  var filterFieldset = filtersOfMap.querySelectorAll('fieldset');
+  var filterSelect = filtersOfMap.querySelectorAll('select');
+  var filterInput = filtersOfMap.querySelectorAll('input');
   var PriceRange = {
     LOW: 10000,
     HIGH: 50000
   };
 
   var filterByFields = function () {
-    var refreshedAds = filteredAds;
+    var refreshedAds = adsData;
+
     var housingType = document.querySelector('#housing-type').value;
     refreshedAds = housingType === TYPE_DEFAULT_VALUE ? refreshedAds : refreshedAds.filter(function (it) {
       return it.offer.type === housingType;
@@ -42,61 +45,41 @@
       return it.offer.guests === parseInt(housingGuests, 10);
     });
 
-    var featureWifi = document.querySelector('#filter-wifi').checked;
-    refreshedAds = featureWifi === false ? refreshedAds : refreshedAds.filter(function (it) {
-      return it.offer.features.includes('wifi');
+    var features = filtersOfMap.querySelectorAll('input[name="features"]:checked');
+    var featuresOfFilter = [];
+
+    features.forEach(function (elem) {
+      featuresOfFilter.push(elem.value);
     });
 
-    var featureDishwasher = document.querySelector('#filter-dishwasher').checked;
-    refreshedAds = featureDishwasher === false ? refreshedAds : refreshedAds.filter(function (it) {
-      return it.offer.features.includes('dishwasher');
-    });
-
-    var featureParking = document.querySelector('#filter-parking').checked;
-    refreshedAds = featureParking === false ? refreshedAds : refreshedAds.filter(function (it) {
-      return it.offer.features.includes('parking');
-    });
-
-    var featureWasher = document.querySelector('#filter-washer').checked;
-    refreshedAds = featureWasher === false ? refreshedAds : refreshedAds.filter(function (it) {
-      return it.offer.features.includes('washer');
-    });
-
-    var featureElevator = document.querySelector('#filter-elevator').checked;
-    refreshedAds = featureElevator === false ? refreshedAds : refreshedAds.filter(function (it) {
-      return it.offer.features.includes('elevator');
-    });
-
-    var featureConditioner = document.querySelector('#filter-conditioner').checked;
-    refreshedAds = featureConditioner === false ? refreshedAds : refreshedAds.filter(function (it) {
-      return it.offer.features.includes('conditioner');
-    });
-
-
-    window.pin.updatePins(refreshedAds);
-  };
-
-  var pinFilter = function (data) {
-    filteredAds = data;
-
-    featuresFilter.forEach(function(filter){
-      filter.addEventListener('change', function (evt) {
-        window.card.onClosePopup();
-        filterByFields();
-      });
-    });
-    checkboxFilter.forEach(function(filter){
-      filter.addEventListener('change', function (evt) {
-        window.card.onClosePopup();
-        filterByFields();
+    refreshedAds = featuresOfFilter === featuresOfFilter.length > 0 ? refreshedAds : refreshedAds.filter(function (it) {
+      return featuresOfFilter.every(function (item) {
+        return it.offer.features.indexOf(item) > -1;
       });
     });
 
+    var filteredPins = window.pin.updatePins(refreshedAds);
+    window.utils.debounce(filteredPins);
   };
 
+  var filterPin = function (data) {
+    adsData = data;
 
+    filtersOfMap.addEventListener('change', function (evt) {
+      window.card.closePopup();
+      filterByFields();
+    });
+  };
+
+  window.utils.switchDisableAttribute(filterFieldset, true);
+  window.utils.switchDisableAttribute(filterSelect, true);
+  window.utils.switchDisableAttribute(filterInput, true);
 
   window.filters = {
-    pinFilter: pinFilter
+    filtersOfMap: filtersOfMap,
+    filterFieldset: filterFieldset,
+    filterSelect: filterSelect,
+    filterInput: filterInput,
+    filterPin: filterPin
   };
 })();

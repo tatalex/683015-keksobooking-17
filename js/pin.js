@@ -105,7 +105,7 @@
 
     var onMouseUp = function (evtUp) {
       evtUp.preventDefault();
-      window.maps.onActivateMap();
+      window.map.onActivateMap();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -117,25 +117,11 @@
 
   mainPin.addEventListener('mousedown', onMouseDown);
 
-
-  window.mainPin = mainPin;
-  window.map = map;
-  window.pins = pins;
-  window.allMapPins = allMapPins;
-  window.LimitLocation = {
-    POSITION_MAX_Y: 630,
-    POSITION_MIN_Y: 130,
-    POSITION_MAX_X: map.offsetWidth,
-    POSITION_MIN_X: 0
-  };
-  window.PinSize = {
-    PIN_WIDTH: 50,
-    PIN_HEIGHT: 70,
-    MAIN_PIN_WIDTH: 65,
-    MAIN_PIN_HEIGHT: 65
-  };
-
   window.pin = {
+    mainPin: mainPin,
+    map: map,
+    LimitLocation: LimitLocation,
+    PinSize: PinSize,
     updatePins: updatePins,
     renderPin: renderPin,
     renderPins: renderPins,

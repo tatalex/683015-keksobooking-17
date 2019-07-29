@@ -41,8 +41,7 @@
   };
 
   var sendStoredtData = function (data, onSuccess, onError) {
-    var xhr = storedtData(onSuccess, onError);
-    xhr.open('POST', Url.POST);
+    var xhr = storedtData(onSuccess, onError, 'POST', Url.POST);
     xhr.send(data);
   };
 

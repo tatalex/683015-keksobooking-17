@@ -7,7 +7,6 @@
   var errorMessage = errorTemplate.cloneNode(true);
   var errorButton = errorMessage.querySelector('.error__button');
 
-
   var onError = function () {
     main.appendChild(errorMessage);
 
@@ -25,13 +24,13 @@
   };
 
   var onSuccess = function (objects) {
+    window.utils.getRandomId(objects);
     window.pin.updatePins(objects);
-    window.filters.pinFilter(objects);
+    window.filters.filterPin(objects);
   };
 
-  window.ESC_CODE = 27;
-
   window.data = {
+    ESC_CODE: ESC_CODE,
     onError: onError,
     onSuccess: onSuccess
   };

@@ -25,8 +25,15 @@
     };
   };
 
+  var getRandomId = function (objects) {
+    objects.forEach(function (obj) {
+      obj.id = Math.random().toString(36).substr(2, 9);
+    });
+  };
+
   window.utils = {
     switchDisableAttribute: switchDisableAttribute,
-    debounce: debounce
+    debounce: debounce,
+    getRandomId: getRandomId
   };
 })();

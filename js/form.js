@@ -2,10 +2,9 @@
 
 (function () {
   var adForm = document.querySelector('.ad-form');
-  var mapFilters = document.querySelector('.map__filters');
   var adFieldset = adForm.querySelectorAll('fieldset');
-  var mapSelect = mapFilters.querySelectorAll('select');
-  var mapFieldset = mapFilters.querySelectorAll('fieldset');
+  var adSelect = adForm.querySelectorAll('select');
+  var adInput = adForm.querySelectorAll('input');
   var address = adForm.querySelector('#address');
   var selectRooms = adForm.querySelector('select[name="rooms"]');
   var selectCapacity = adForm.querySelector('select[name="capacity"]');
@@ -28,7 +27,7 @@
     '3': ['1', '2', '3'],
     '100': ['0']
   };
-  var TYPES_OF_HOUSING = {
+  var typesOfHousing = {
     palace: 10000,
     flat: 1000,
     house: 5000,
@@ -44,7 +43,7 @@
 
   // synchronizes housing type and price
   var onHousingTypeChange = function () {
-    var minPriceOfType = TYPES_OF_HOUSING[offerType.value];
+    var minPriceOfType = typesOfHousing[offerType.value];
 
     price.min = minPriceOfType;
     price.placeholder = minPriceOfType;
@@ -52,8 +51,8 @@
 
   // adds location to address field
   var setAdressLocation = function (coordinateX, coordinateY) {
-    coordinateX = Math.ceil(window.mainPin.offsetLeft + window.PinSize.MAIN_PIN_WIDTH / 2);
-    coordinateY = Math.ceil(window.mainPin.offsetTop + window.PinSize.MAIN_PIN_HEIGHT);
+    coordinateX = Math.ceil(window.pin.mainPin.offsetLeft + window.pin.PinSize.MAIN_PIN_WIDTH / 2);
+    coordinateY = Math.ceil(window.pin.mainPin.offsetTop + window.pin.PinSize.MAIN_PIN_HEIGHT);
     address.value = coordinateX + ', ' + coordinateY;
   };
 
@@ -66,7 +65,7 @@
   };
 
   var removeStatusMessage = function (evt, message) {
-    if (evt.type === 'click' || evt.keyCode === window.ESC_CODE) {
+    if (evt.type === 'click' || evt.keyCode === window.data.ESC_CODE) {
       main.removeChild(message);
       document.removeEventListener('keydown', removeStatusMessage);
       document.removeEventListener('click', removeStatusMessage);
@@ -75,7 +74,7 @@
 
   var onSuccessSend = function () {
     main.appendChild(successMessage);
-    window.maps.onResetPage();
+    window.map.onResetPage();
 
     document.addEventListener('click', function (evt) {
       removeStatusMessage(evt, successMessage);
@@ -99,27 +98,29 @@
     });
   };
 
-  onRoomsCountChange();
   setAdressLocation();
-  selectRooms.addEventListener('change', onRoomsCountChange);
   window.utils.switchDisableAttribute(adFieldset, true);
-  window.utils.switchDisableAttribute(mapFieldset, true);
-  window.utils.switchDisableAttribute(mapSelect, true);
-  timeIn.addEventListener('change', onFieldValueChange);
-  timeOut.addEventListener('change', onFieldValueChange);
-  offerType.addEventListener('change', onHousingTypeChange);
-  resetForm.addEventListener('click', window.maps.onResetPage);
+  window.utils.switchDisableAttribute(adInput, true);
+  window.utils.switchDisableAttribute(adSelect, true);
+  resetForm.addEventListener('click', window.map.onResetPage);
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.sendStoredtData(new FormData(adForm), onSuccessSend, onErrorSend);
   });
 
-  window.adForm = adForm;
-  window.mapFieldset = mapFieldset;
-  window.mapSelect = mapSelect;
-  window.adFieldset = adFieldset;
 
   window.form = {
-    setAdressLocation: setAdressLocation
+    adForm: adForm,
+    adInput: adInput,
+    adSelect: adSelect,
+    adFieldset: adFieldset,
+    selectRooms: selectRooms,
+    timeIn: timeIn,
+    timeOut: timeOut,
+    offerType: offerType,
+    setAdressLocation: setAdressLocation,
+    onFieldValueChange: onFieldValueChange,
+    onHousingTypeChange: onHousingTypeChange,
+    onRoomsCountChange: onRoomsCountChange
   };
 })();

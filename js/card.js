@@ -58,23 +58,22 @@
   var renderCards = function (cards) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < cards.length; i++) {
-      var card = renderCard(cards[i], i);
+      var card = renderCard(cards[i], cards[i].id);
       pinCards.push(card);
       fragment.appendChild(card);
     }
     return fragment;
   };
 
-  // code for listeners
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.ESC_CODE) {
+    if (evt.keyCode === window.data.ESC_CODE) {
       pinCards.forEach(function (card) {
         card.classList.add('hidden');
       });
     }
   };
 
-  var onClosePopup = function () {
+  var closePopup = function () {
     pinCards.forEach(function (card) {
       card.classList.add('hidden');
     });
@@ -82,21 +81,21 @@
   };
 
   var addCards = function (objects) {
-    // render the cards
     var fragments = renderCards(objects);
 
-    // add open logic
-    var pinsWithoutMain = window.map.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var pinsWithoutMain = window.pin.map.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var i = 0; i < pinsWithoutMain.length; i++) {
       pinsWithoutMain[i].addEventListener('click', function (event) {
+        closePopup();
         pinCards.forEach(function (card) {
-          card.classList.add('hidden');
+          if (card.classList.dataId === getDataId(event)) {
+            card.classList.remove('hidden');
+          }
         });
-        pinCards[getDataId(event)].classList.remove('hidden');
 
         var closeButton = document.querySelectorAll('.popup__close');
         closeButton.forEach(function (button) {
-          button.addEventListener('click', onClosePopup);
+          button.addEventListener('click', closePopup);
         });
 
         document.addEventListener('keydown', onPopupEscPress);
@@ -105,6 +104,7 @@
 
     return fragments;
   };
+
 
   var getDataId = function (evt) {
     if (evt.target.tagName === 'IMG') {
@@ -117,6 +117,7 @@
 
 
   window.card = {
-    addCards: addCards
+    addCards: addCards,
+    closePopup: closePopup
   };
 })();

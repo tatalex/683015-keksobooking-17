@@ -22,17 +22,18 @@
 
     var priceRange = document.querySelector('#housing-price').value;
     refreshedAds = priceRange === TYPE_DEFAULT_VALUE ? refreshedAds : refreshedAds.filter(function (it) {
-      if (priceRange === 'middle'){
+      if (priceRange === 'middle') {
         return it.offer.price >= PriceRange.LOW && it.offer.price <= PriceRange.HIGH;
       }
 
-      if (priceRange === 'low'){
+      if (priceRange === 'low') {
         return it.offer.price < PriceRange.LOW;
       }
 
-      if (priceRange === 'high'){
+      if (priceRange === 'high') {
         return it.offer.price > PriceRange.HIGH;
       }
+      return true;
     });
 
     var housingRooms = document.querySelector('#housing-rooms').value;
@@ -65,7 +66,7 @@
   var filterPin = function (data) {
     adsData = data;
 
-    filtersOfMap.addEventListener('change', function (evt) {
+    filtersOfMap.addEventListener('change', function () {
       window.card.closePopup();
       filterByFields();
     });

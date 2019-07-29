@@ -87,8 +87,8 @@
     for (var i = 0; i < pinsWithoutMain.length; i++) {
       pinsWithoutMain[i].addEventListener('click', function (event) {
         closePopup();
-        pinCards.forEach(function(card){
-          if (card.classList.dataId === getDataId(event)){
+        pinCards.forEach(function (card) {
+          if (card.classList.dataId === getDataId(event)) {
             card.classList.remove('hidden');
           }
         });

@@ -108,7 +108,6 @@
     window.backend.sendStoredtData(new FormData(adForm), onSuccessSend, onErrorSend);
   });
 
-
   window.form = {
     adForm: adForm,
     adInput: adInput,
